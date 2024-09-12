@@ -1,0 +1,44 @@
+{% extends "clinic/base_site.html" %}
+
+{% block content %}
+<style>
+select {
+  padding: 0px;
+}
+</style>
+<form id='clinic-form' class="clinic-form" method="post" action="{% url 'clinic_send_file' %}" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div>
+    <div class="form-group" style="padding:10px;">
+      {{ form.name.errors }}
+      {{ form.name.label_tag }} {{ form.name }}
+    </div>
+    <div class="form-group" style="padding:10px;">
+      {{ form.email.errors }}
+      {{ form.email.label_tag }} {{ form.email }}
+    </div>
+    <div class="form-group" style="padding:10px;">
+      {{ form.email_from.errors }}
+      {{ form.email_from.label_tag }} {{ form.email_from }}
+    </div>
+    <div class="form-group" style="padding:10px;">
+      {{ form.upload.errors }}
+      File: {{ form.upload }}
+    </div>
+    <div class="form-group" style="padding:10px;">
+      {{ form.expire_downloads.errors }}
+      {{ form.expire_time.errors }}
+      Expires after {{ form.expire_downloads }} or {{ form.expire_time }}
+    </div>
+    <div class="form-group" style="padding:10px;">
+      {{ form.mail_subject.errors }}
+      Email Subject: {{ form.mail_subject }}
+    </div>
+    <div class="form-group" style="padding:10px;">
+      {{ form.mail_body.errors }}
+      Email Body: {{ form.mail_body }}
+    </div>
+  </div>
+  <input type="submit" style="float:right;">
+</form>
+{% endblock %}

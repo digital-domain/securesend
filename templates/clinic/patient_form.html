@@ -1,0 +1,30 @@
+{% extends "clinic/base_site.html" %}
+
+{% block content %}
+<form id='clinic-form' class="clinic-form" method="post" action="{% url 'patient_send_file' %}" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div>
+    <div class="form-group" style="padding:10px;">
+      {{ form.name.errors }}
+      {{ form.name.label_tag }} {{ form.name }}
+    </div>
+    <div class="form-group" style="padding:10px;">
+      {{ form.upload.errors }}
+      File: {{ form.upload }}
+    </div>
+    <div class="form-group" style="padding:10px;">
+      {{ form.send_choices.errors }}
+      {{ form.send_choices }}
+    </div>
+    <div class="form-group" style="padding:10px;">
+      {{ form.captcha.errors }}
+      {{ form.captcha }}
+    </div>
+    <div class="form-group" style="padding:10px;">
+      {{ form.passcode.errors }}
+      {{ form.passcode.label_tag }}{{ form.passcode }}
+    </div>
+  </div>
+  <input type="submit" style="float:right;">
+</form>
+{% endblock %}
