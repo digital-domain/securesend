@@ -32,7 +32,7 @@ def send_share_link(name, email, share_link, email_subject, email_body, expire_d
     from_email = settings.EMAIL_FROM
     if email_from:
         from_email = email_from
-    html_message = render_to_string('clinic/email_template.html', {'subject':subject, 'name':name, 'message':message, 'expire_downloads':expire_downloads, 'expire_time':expire_time, 'share_link' :share_link})
+    html_message = render_to_string('clinic/email_template.html', {'subject':subject, 'name':name, 'message':message, 'expire_downloads':expire_downloads, 'expire_time':expire_time, 'share_link' :share_link, 'header':settings.EMAIL_HEADER,})
     plain_message = strip_tags(html_message)
     print(from_email)
     print(email, from_email, subject)
