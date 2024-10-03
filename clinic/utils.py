@@ -48,11 +48,15 @@ def get_clinic_to_emails(choices):
         to_addresses.append(settings.CLINIC_CONSULTATION_EMAIL)
     if 'doctor' in choices:
         to_addresses.append(settings.CLINIC_DOCTOR_EMAIL)
+    if 'lab' in choices:
+        to_addresses.append(settings.CLINIC_LAB_EMAIL)
     print(to_addresses)
     return to_addresses
 
 def send_email(to_address, from_address, subject, message, html=None, files=None):
     #https://stackoverflow.com/questions/3362600/how-to-send-email-attachments
+    if isinstance(to_address, list):
+        to_address = ','.join(to_address)
     msg = MIMEMultipart()
     msg['From'] = from_address
     msg['To'] = to_address

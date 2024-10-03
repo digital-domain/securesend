@@ -22,6 +22,7 @@ def clinic_send_file(request):
         if form.is_valid():
             file_path = handle_uploaded_file(request.FILES["upload"])
             share_link = handle_form_submission(str(form.cleaned_data['expire_downloads']), str(form.cleaned_data['expire_time']), file_path)
+            share_link = share_link.replace(' ','')
             send_share_link(form.cleaned_data['name'], form.cleaned_data['email'], share_link, form.cleaned_data['mail_subject'], form.cleaned_data['mail_body'], settings.FILE_DEFAULT_EXPIRE_DOWNLOADS, settings.FILE_DEFAULT_EXPIRE_TIME,None, form.cleaned_data['email_from'])
             return TemplateResponse(request, "clinic/clinic_form_success.html", {'share_link':share_link})
         else:
@@ -39,6 +40,7 @@ def patient_send_file(request):
         if form.is_valid():
             file_path = handle_uploaded_file(request.FILES["upload"])
             share_link = handle_form_submission(settings.FILE_DEFAULT_EXPIRE_DOWNLOADS, settings.FILE_DEFAULT_EXPIRE_TIME, file_path)
+            share_link = share_link.replace(' ','')
             mail_to = get_clinic_to_emails(form.cleaned_data['send_choices'])
             send_share_link(settings.CLINIC_NAME, mail_to, share_link, settings.DEFAULT_PATIENT_TO_CLINIC_SUBJECT, settings.DEFAULT_PATIENT_TO_CLINIC_SUBJECT, settings.FILE_DEFAULT_EXPIRE_DOWNLOADS, settings.FILE_DEFAULT_EXPIRE_TIME, form.cleaned_data['name'])
             return TemplateResponse(request, "clinic/patient_form_success.html", {'share_link':share_link})

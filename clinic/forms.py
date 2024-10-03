@@ -37,6 +37,7 @@ class PatientForm(forms.Form):
         ('reception','Reception'),
         ('consultation','Consultation'),
         ('doctor','Doctor'),
+        ('lab','Laboratory'),
     ]
     name = forms.CharField(required=True)
     captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
