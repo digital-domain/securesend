@@ -4,7 +4,7 @@ from django.template.response import TemplateResponse
 from django.contrib.auth.decorators import login_required
 
 from .forms import ClinicForm, PatientForm
-from .utils import handle_uploaded_file, handle_form_submission, send_share_link, get_clinic_to_emails
+from .utils import handle_uploaded_file, handle_multiple_uploaded_files, handle_form_submission, send_share_link, get_clinic_to_emails
 
 def index(request):
     #context = {}
@@ -20,8 +20,10 @@ def clinic_send_file(request):
     form = ClinicForm(request.POST or None, request.FILES or None)
     if request.POST:
         if form.is_valid():
-            file_path = handle_uploaded_file(request.FILES["upload"])
-            share_link = handle_form_submission(str(form.cleaned_data['expire_downloads']), str(form.cleaned_data['expire_time']), file_path)
+            files = form.cleaned_data['multiple_upload']
+            zip_path = handle_multiple_uploaded_files(files)
+            #file_path = handle_uploaded_file(request.FILES["upload"])
+            share_link = handle_form_submission(str(form.cleaned_data['expire_downloads']), str(form.cleaned_data['expire_time']), zip_path)
             share_link = share_link.replace(' ','')
             send_share_link(form.cleaned_data['name'], form.cleaned_data['email'], share_link, form.cleaned_data['mail_subject'], form.cleaned_data['mail_body'], settings.FILE_DEFAULT_EXPIRE_DOWNLOADS, settings.FILE_DEFAULT_EXPIRE_TIME,None, form.cleaned_data['email_from'])
             return TemplateResponse(request, "clinic/clinic_form_success.html", {'share_link':share_link})
